@@ -5,17 +5,19 @@ package alltasks.time;
  */
 public class Time {
 
-    private final int hours;
-    private final int minutes;
+    private int hours;
+    private int minutes;
 
     public Time(int hours, int minutes) {
-        this.hours = hours;
-        this.minutes = minutes;
+        this.hours = hours % 24;
+        this.minutes = minutes % 60;
     }
 
     @Override
     public String toString() {
+        if (hours < 10 && minutes < 10) return "0" + hours + ":" + "0" + minutes;
         if (hours < 10) return "0" + hours + ":" + minutes;
+        if (minutes < 10) return hours + ":" + "0" + minutes;
         return hours + ":" + minutes;
     }
 
@@ -27,8 +29,9 @@ public class Time {
         return (isNight()) ? "Доброй ночи" : (isMorning()) ? "Доброе утро" : (isDay()) ? "Добрый день" : "Добрый вечер";
     }
 
-    public Time add(int m) {
-        return new Time((hours + (minutes + m) / 60) % 24, (minutes + m) % 60);
+    public void add(int m) {
+        hours = (hours + (minutes + m) / 60) % 24;
+        minutes = (minutes + m) % 60;
     }
 
     public boolean isDay() {
